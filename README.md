@@ -2,6 +2,9 @@
 
 A single-file, local-first Markdown note-taking web app. Open `ledger-notes-app.html` in a browser — no build step or server required. Notes are saved to your browser's `localStorage`.
 
+|--|--|
+| ![Ledger Notes in light mode, showing the note list sidebar on the left and the selected note's rendered markdown in the preview pane on the right.](ledger-note-light.png) | ![Ledger Notes in dark mode, showing the note list sidebar on the left and the selected note's rendered markdown in the preview pane on the right.](ledger-notes-light.png) |
+
 ## Features
 
 - **Local-first**: notes are stored immediately in `localStorage`.
@@ -19,9 +22,10 @@ Open **Settings** to back up or restore your notes.
 - **Export all notes** — saves every note to a single Markdown file (`ledger-notes-export.md`).
 - **Import all notes** — loads a previously exported Markdown file. This **overwrites** all existing notes (you'll be asked to confirm first).
 
-### File format
+### Export file format
 
-Each note is stored as Markdown with a YAML-style frontmatter header holding its metadata, and notes are separated by a `<!-- ledger-note -->` marker:
+Each note is exported as a block of Markdown text with a YAML-style frontmatter header holding its metadata.
+Notes are separated by a `<!-- ledger-note -->` marker:
 
 ```markdown
 <!-- ledger-note -->
