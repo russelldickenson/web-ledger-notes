@@ -2,8 +2,7 @@
 
 A single-file, local-first Markdown note-taking web app. Open `ledger-notes-app.html` in a browser — no build step or server required. Notes are saved to your browser's `localStorage`.
 
-|--|--|
-| ![Ledger Notes in light mode, showing the note list sidebar on the left and the selected note's rendered markdown in the preview pane on the right.](ledger-note-light.png) | ![Ledger Notes in dark mode, showing the note list sidebar on the left and the selected note's rendered markdown in the preview pane on the right.](ledger-notes-light.png) |
+![Ledger Notes showing the note list sidebar on the left and the selected note's rendered Markdown in the preview pane on the right.](ledger-note-light.png)
 
 ## Features
 
@@ -14,6 +13,35 @@ A single-file, local-first Markdown note-taking web app. Open `ledger-notes-app.
 - **Keyboard shortcuts**:
   - `Cmd/Ctrl + .` — new note
   - `Cmd/Ctrl + Enter` — save and exit edit mode
+
+## Getting Started
+
+### Add a note
+
+To add a note:
+
+- Select __New +__ or press `Command/Control`+`+`.
+- Enter the note's text.
+- Optionally. Add tags to more easily find the note again.
+- Select the "View mode" toggle or press `[Command/Control]`+`[Enter/Return]`
+  The note's content is saved automatically.
+
+### Edit a note
+
+To edit a note:
+
+- Select the note's preview card.
+- Edit the note's text.
+- Select the "View mode" toggle or press `[Command/Control]`+`[Enter/Return]`
+  The note's content is saved automatically.
+
+### Delete a note
+
+To delete a note:
+
+- Select the note's preview card.
+- From the note's menu, select __Delete note__.
+- Confirm that the note is to be deleted.
 
 ## Export / Import
 
