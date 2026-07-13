@@ -2,7 +2,7 @@
 
 A single-file, local-first Markdown note-taking web app. Open `ledger-notes-app.html` in a browser — no build step or server required. Notes are saved to your browser's `localStorage`.
 
-![Ledger Notes showing the note list sidebar on the left and the selected note's rendered Markdown in the preview pane on the right.](ledger-note-light.png)
+![Ledger Notes showing the note list sidebar on the left and the selected note's rendered Markdown in the preview pane on the right.](ledger-notes.png)
 
 ## Features
 
