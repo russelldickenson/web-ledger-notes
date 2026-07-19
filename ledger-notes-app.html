@@ -185,48 +185,6 @@
     min-height: 0;
     border-right: 1px solid var(--border-color);
   }
-  .sidebar-head {
-    padding: 16px 16px 12px 16px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex: 0 0 auto;
-  }
-  .sidebar-head h2 {
-    font-size: 12px;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--text-muted);
-    font-weight: 600;
-    margin: 0;
-  }
-  .new-note-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    font-family: inherit;
-    font-size: 0.875rem;
-    font-weight: 500;
-    padding: 8px 14px;
-    border-radius: 8px;
-    border: 1px solid transparent;
-    cursor: pointer;
-    background-color: var(--primary);
-    color: #ffffff;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-    transition: all var(--transition-fast);
-    outline: none;
-  }
-  .new-note-btn:hover {
-    background-color: var(--primary-hover);
-  }
-  .new-note-btn:active {
-    transform: scale(0.97);
-  }
-  .new-note-btn:focus-visible { outline: none; box-shadow: 0 0 0 2px var(--primary); }
-  .new-note-btn svg { width: 14px; height: 14px; }
-
   .note-list {
     flex: 1 1 auto;
     overflow-y: auto;
@@ -312,7 +270,7 @@
   }
   .note-card-preview {
     position: relative;
-    max-height: 3em;
+    max-height: 90px;
     overflow: hidden;
     font-size: 13px;
     line-height: 1.5;
@@ -324,6 +282,13 @@
   .note-card-preview p { margin: 0 0 4px 0; }
   .note-card-preview ul, .note-card-preview ol { margin: 0 0 4px 0; padding-left: 18px; }
   .note-card-preview strong { color: var(--note-text); font-weight: 700; }
+  .note-card-preview h1, .note-card-preview h2, .note-card-preview h3, .note-card-preview h4, .note-card-preview h5, .note-card-preview h6 {
+    font-size: 14px;
+    font-weight: 600;
+    margin: 0 0 6px 0;
+    line-height: 1.3;
+    color: var(--note-text);
+  }
 
   .empty-sidebar, .empty-content {
     color: var(--text-muted);
@@ -390,7 +355,7 @@
   .note-view-body {
     flex: 1 1 auto;
     overflow-y: auto;
-    padding: 32px 80px 48px 40px;
+    padding: 64px 80px 48px 40px;
   }
 
   .rendered-note {
@@ -689,6 +654,13 @@
   .settings-row-label { font-size: 13px; color: var(--text-main); }
   .settings-row-sub { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
   .danger-text { color: var(--danger); }
+  .time-format-toggle {
+    position: static;
+    top: auto;
+    right: auto;
+    box-shadow: none;
+    height: 28px;
+  }
 
   /* Animation Keyframes */
   @keyframes fadeIn {
@@ -815,7 +787,7 @@
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 6px;
+    gap: 10px;
     background-color: color-mix(in srgb, var(--note-bg) 97%, black);
     border: 1px solid var(--note-border);
     border-radius: 8px;
@@ -829,39 +801,66 @@
     box-shadow: 0 0 0 2px var(--primary-light);
   }
 
+  .editor-tag-list {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+  }
+
   .editor-tag-chip {
     display: inline-flex;
     align-items: center;
     gap: 4px;
-    background-color: color-mix(in srgb, var(--note-bg) 92%, black);
-    border: 1px solid var(--note-border);
-    padding: 2px 6px;
+    padding: 2px 8px;
     border-radius: 6px;
     font-size: 0.75rem;
     font-weight: 500;
-    color: var(--note-text);
     transition: all var(--transition-fast);
+    cursor: pointer;
+    user-select: none;
   }
 
-  .editor-tag-chip:hover {
-    background-color: color-mix(in srgb, var(--note-bg) 88%, black);
+  /* Selected tag chip (active/stands out) */
+  .editor-tag-chip.selected {
+    background-color: var(--primary);
+    color: white;
+    border: 1px solid var(--primary);
   }
 
-  .editor-tag-chip .remove-btn {
+  .editor-tag-chip.selected:hover {
+    background-color: color-mix(in srgb, var(--primary) 85%, black);
+    border-color: color-mix(in srgb, var(--primary) 85%, black);
+  }
+
+  .editor-tag-chip.selected .remove-btn {
     background: none;
     border: none;
     cursor: pointer;
-    padding: 0 2px;
+    padding: 0 0 0 4px;
     font-size: 0.75rem;
     font-weight: bold;
-    color: var(--note-text-muted);
+    color: rgba(255, 255, 255, 0.8);
     display: inline-flex;
     align-items: center;
     justify-content: center;
   }
 
-  .editor-tag-chip .remove-btn:hover {
-    color: var(--danger);
+  .editor-tag-chip.selected .remove-btn:hover {
+    color: white;
+  }
+
+  /* Unselected tag chip (inactive/dashed border) */
+  .editor-tag-chip.unselected {
+    background-color: transparent;
+    border: 1px dashed var(--note-border);
+    color: var(--note-text-muted);
+  }
+
+  .editor-tag-chip.unselected:hover {
+    border-color: var(--primary);
+    color: var(--note-text);
+    background-color: color-mix(in srgb, var(--primary) 8%, transparent);
   }
 
   .tags-input-field {
@@ -1003,6 +1002,9 @@
       <div class="brand-title">Ledger Notes</div>
     </div>
     <div class="header-actions">
+      <button class="icon-btn" id="newNoteBtn" title="New note">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 5v14M5 12h14"/></svg>
+      </button>
       <button class="icon-btn" id="themeToggleBtn" title="Toggle theme">
         <svg id="themeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
       </button>
@@ -1014,13 +1016,6 @@
 
   <div class="workspace">
     <aside class="sidebar" id="sidebar">
-      <div class="sidebar-head">
-        <h2>Notes</h2>
-        <button class="new-note-btn" id="newNoteBtn">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-          New
-        </button>
-      </div>
       <div class="tag-filter-bar" id="tagFilterBar"></div>
       <div class="note-list" id="noteList"></div>
     </aside>
@@ -1112,6 +1107,16 @@
       </div>
       <button class="ghost-btn" id="importNotesBtn" style="border-color: var(--danger); color: var(--danger);">Import</button>
     </div>
+    <div class="settings-row">
+      <div>
+        <div class="settings-row-label">Time format</div>
+        <div class="settings-row-sub">Display note timestamps in 12-hour or 24-hour</div>
+      </div>
+      <div class="toggle-mode-container time-format-toggle" role="group" aria-label="Time format">
+        <button class="btn-toggle" data-timeformat="12" style="width: 44px; font-size: 12px; font-weight: 600;">12h</button>
+        <button class="btn-toggle" data-timeformat="24" style="width: 44px; font-size: 12px; font-weight: 600;">24h</button>
+      </div>
+    </div>
     <div class="modal-actions" style="margin-top: 8px;">
       <button class="accent-btn" id="closeSettings">Done</button>
     </div>
@@ -1132,7 +1137,7 @@
     selectedId: null,
     mode: 'view',
     activeTags: ['All'],
-    settings: { theme: window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark', sidebarWidth: 340, lastNoteId: null }
+    settings: { theme: window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark', sidebarWidth: 340, lastNoteId: null, timeFormat: '12' }
   };
 
   // ---------- Settings (localStorage) ----------
@@ -1264,19 +1269,7 @@
       .replace(/"/g, '&quot;');
   }
 
-  function deriveTitle(content) {
-    const headingMatch = content.match(/^\s*#\s+(.+)$/m);
-    if (headingMatch) return headingMatch[1].trim();
-    
-    const lines = content.split('\n').map(l => l.trim()).filter(Boolean);
-    if (lines.length > 0) {
-      const cleanText = lines[0].replace(/[#*`_-]+/g, '').trim();
-      if (cleanText) {
-        return cleanText.length > 32 ? cleanText.substring(0, 32) + '...' : cleanText;
-      }
-    }
-    return 'Untitled note';
-  }
+
 
   function loadNotes() {
     let notes = [];
@@ -1430,8 +1423,9 @@
 
   function formatDate(ts) {
     const d = new Date(ts);
+    const hour12 = state.settings.timeFormat !== '24';
     return d.toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' }) +
-      ' · ' + d.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' });
+      ' · ' + d.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit', hour12: hour12 });
   }
 
   function renderSidebar() {
@@ -1485,20 +1479,14 @@
       });
       card.appendChild(pinBtn);
 
-      const title = document.createElement('div');
-      title.className = 'note-card-title';
-      title.textContent = note.title;
-
       const date = document.createElement('span');
       date.className = 'note-card-date';
       date.textContent = formatDate(note.lastModified);
 
       const preview = document.createElement('div');
       preview.className = 'note-card-preview';
-      const previewSource = note.content.replace(/^\s*#\s+.+$/m, '').trim();
-      preview.innerHTML = renderMarkdown(previewSource || '*Empty note*');
+      preview.innerHTML = renderMarkdown(note.content || '*Empty note*');
 
-      card.appendChild(title);
       card.appendChild(preview);
 
       // Append tags to the note card if present
@@ -1569,17 +1557,6 @@
       viewMode.style.display = 'flex';
       const renderedNote = document.getElementById('renderedNote');
       
-      let displayTitle = note.title;
-      let displayBody = note.content;
-
-      // Strip title heading if it is duplicate in body
-      const headingRegex = /^\s*#\s+(.+)$/m;
-      if (displayBody.match(headingRegex)) {
-        displayBody = displayBody.replace(headingRegex, '').trim();
-      }
-
-      const titleHtml = `<h1 class="note-title">${escapeHtml(displayTitle)}</h1>`;
-      
       let tagsHtml = '';
       if (note.tags && note.tags.length > 0) {
         tagsHtml = `
@@ -1591,8 +1568,8 @@
         `;
       }
 
-      const bodyHtml = renderMarkdown(displayBody || '*Empty note*');
-      renderedNote.innerHTML = titleHtml + tagsHtml + bodyHtml;
+      const bodyHtml = renderMarkdown(note.content || '*Empty note*');
+      renderedNote.innerHTML = tagsHtml + bodyHtml;
       enableCheckboxes(renderedNote, note);
 
       toggleViewButtons.forEach(btn => btn.classList.add('active'));
@@ -1608,21 +1585,59 @@
     const note = getSelectedNote();
     if (!note) return;
 
-    note.tags.forEach((tag, idx) => {
+    const input = document.getElementById('tagsInputField');
+    const filter = (input && input.value.trim().toLowerCase()) || '';
+
+    // Get all unique tags from notes database
+    const allTags = getAllTags();
+
+    // Ensure any tags already on the current note are included
+    note.tags.forEach(tag => {
+      if (!allTags.some(t => t.toLowerCase() === tag.toLowerCase())) {
+        allTags.push(tag);
+      }
+    });
+
+    // Sort tags alphabetically
+    allTags.sort((a, b) => a.localeCompare(b));
+
+    // Filter tags if there is input
+    const filteredTags = allTags.filter(tag => !filter || tag.toLowerCase().includes(filter));
+
+    filteredTags.forEach(tag => {
+      const isSelected = note.tags.some(t => t.toLowerCase() === tag.toLowerCase());
+      
       const chip = document.createElement('span');
-      chip.className = 'editor-tag-chip';
+      chip.className = 'editor-tag-chip ' + (isSelected ? 'selected' : 'unselected');
       chip.textContent = tag;
 
-      const removeBtn = document.createElement('button');
-      removeBtn.className = 'remove-btn';
-      removeBtn.textContent = '×';
-      removeBtn.addEventListener('click', () => {
-        note.tags.splice(idx, 1);
-        saveNoteWithTags(note);
-        renderEditorTags();
-      });
+      if (isSelected) {
+        const removeBtn = document.createElement('button');
+        removeBtn.className = 'remove-btn';
+        removeBtn.textContent = '×';
+        removeBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const idx = note.tags.findIndex(t => t.toLowerCase() === tag.toLowerCase());
+          if (idx !== -1) note.tags.splice(idx, 1);
+          saveNoteWithTags(note);
+          renderEditorTags();
+        });
+        chip.appendChild(removeBtn);
 
-      chip.appendChild(removeBtn);
+        chip.addEventListener('click', () => {
+          const idx = note.tags.findIndex(t => t.toLowerCase() === tag.toLowerCase());
+          if (idx !== -1) note.tags.splice(idx, 1);
+          saveNoteWithTags(note);
+          renderEditorTags();
+        });
+      } else {
+        chip.addEventListener('click', () => {
+          note.tags.push(tag);
+          saveNoteWithTags(note);
+          renderEditorTags();
+        });
+      }
+
       list.appendChild(chip);
     });
   }
@@ -1642,6 +1657,7 @@
       const lower = raw.toLowerCase();
       if (note.tags.some(t => t.toLowerCase() === lower)) {
         input.value = '';
+        renderEditorTags();
         return;
       }
 
@@ -1686,7 +1702,6 @@
     saving = true;
     try {
       note.content = newBody;
-      note.title = deriveTitle(newBody, 'Untitled note');
       note.lastModified = Date.now();
       sortNotes();
       saveNotesToLocalStorage();
@@ -1744,7 +1759,7 @@
   function deleteCurrentNote() {
     const note = getSelectedNote();
     if (!note) return;
-    if (!confirm('Delete "' + note.title + '"? This cannot be undone.')) return;
+    if (!confirm('Delete this note? This cannot be undone.')) return;
     state.notes = state.notes.filter(n => n.id !== note.id);
     state.selectedId = state.notes.length ? state.notes[0].id : null;
     saveSettings({ lastNoteId: state.selectedId });
@@ -1896,6 +1911,100 @@
     scheduleAutosave();
   }
 
+  function applyToolbarFormatting(type) {
+    const ta = document.getElementById('editor');
+    const start = ta.selectionStart, end = ta.selectionEnd;
+    const value = ta.value;
+    
+    const rangeStart = value.lastIndexOf('\n', start - 1) + 1;
+    let rangeEnd = value.indexOf('\n', end);
+    if (rangeEnd === -1) rangeEnd = value.length;
+    
+    const blockText = value.slice(rangeStart, rangeEnd);
+    const lines = blockText.split('\n');
+    const formatStr = type === 'checkbox' ? '- [ ] ' : '- ';
+    
+    let newLines = [];
+    let startShift = 0;
+    let endShift = 0;
+    
+    let currentPos = rangeStart;
+    
+    for (let i = 0; i < lines.length; i++) {
+      const lineText = lines[i];
+      const lineTextStart = currentPos;
+      const lineTextEnd = currentPos + lineText.length;
+      
+      const isEmpty = lineText.trim() === '';
+      let newLineText = '';
+      let lengthChange = 0;
+      
+      if (isEmpty) {
+        newLineText = formatStr;
+        lengthChange = formatStr.length - lineText.length;
+      } else {
+        const match = lineText.match(/^(\s*)([-*]\s*\[[ xX]\]\s*|[-*]\s*)?/);
+        const leadingWhitespace = match ? match[1] : '';
+        const existingPrefix = match ? (match[2] || '') : '';
+        
+        const newPrefix = leadingWhitespace + formatStr;
+        const lineContentWithoutPrefix = lineText.slice(leadingWhitespace.length + existingPrefix.length);
+        newLineText = newPrefix + lineContentWithoutPrefix;
+        lengthChange = newLineText.length - lineText.length;
+      }
+      
+      newLines.push(newLineText);
+      
+      if (start >= lineTextStart && start <= lineTextEnd) {
+        if (isEmpty) {
+          startShift = (lineTextStart + newLineText.length) - start;
+        } else {
+          const match = lineText.match(/^(\s*)([-*]\s*\[[ xX]\]\s*|[-*]\s*)?/);
+          const leadingWhitespace = match ? match[1] : '';
+          const existingPrefix = match ? (match[2] || '') : '';
+          const newPrefix = leadingWhitespace + formatStr;
+          const prefixLengthChange = newPrefix.length - (leadingWhitespace.length + existingPrefix.length);
+          startShift = prefixLengthChange;
+        }
+      } else if (start > lineTextEnd) {
+        startShift += lengthChange;
+      }
+      
+      if (end >= lineTextStart && end <= lineTextEnd) {
+        if (isEmpty) {
+          endShift = (lineTextStart + newLineText.length) - end;
+        } else {
+          const match = lineText.match(/^(\s*)([-*]\s*\[[ xX]\]\s*|[-*]\s*)?/);
+          const leadingWhitespace = match ? match[1] : '';
+          const existingPrefix = match ? (match[2] || '') : '';
+          const newPrefix = leadingWhitespace + formatStr;
+          const prefixLengthChange = newPrefix.length - (leadingWhitespace.length + existingPrefix.length);
+          endShift = prefixLengthChange;
+        }
+      } else if (end > lineTextEnd) {
+        endShift += lengthChange;
+      }
+      
+      currentPos += lineText.length + 1;
+    }
+    
+    const newBlockText = newLines.join('\n');
+    ta.value = value.slice(0, rangeStart) + newBlockText + value.slice(rangeEnd);
+    ta.focus();
+    
+    let newStart = start + startShift;
+    let newEnd = end + endShift;
+    
+    const totalNewLength = value.length + (newBlockText.length - blockText.length);
+    newStart = Math.max(0, Math.min(totalNewLength, newStart));
+    newEnd = Math.max(0, Math.min(totalNewLength, newEnd));
+    
+    ta.selectionStart = newStart;
+    ta.selectionEnd = newEnd;
+    
+    scheduleAutosave();
+  }
+
   function insertAdmonition(type) {
     const label = '[!' + type.toUpperCase() + ']';
     const template = '\n> ' + label + '\n> Write something helpful here.\n\n';
@@ -1905,13 +2014,13 @@
   function handleToolbarCommand(cmd) {
     switch (cmd) {
       case 'bold': return wrapSelection('**', '**', 'bold text');
-      case 'italic': return wrapSelection('*', '*', 'italic text');
-      case 'ul': return prefixLines((l, idx) => l.trim() ? '- ' + l.replace(/^[-*]\s?/, '') : '- ');
+      case 'italic': return wrapSelection('_', '_', 'italic text');
+      case 'ul': return applyToolbarFormatting('ul');
       case 'ol': return prefixLines((l, idx) => l.trim() ? (idx + 1) + '. ' + l.replace(/^\d+\.\s?/, '') : (idx + 1) + '. ');
       case 'note': return insertAdmonition('note');
       case 'tip': return insertAdmonition('tip');
       case 'warning': return insertAdmonition('warning');
-      case 'checkbox': return prefixLines((l, idx) => l.trim() ? '- [ ] ' + l.replace(/^[-*]\s*(?:\[[ x]\]\s*)?/, '') : '- [ ] ');
+      case 'checkbox': return applyToolbarFormatting('checkbox');
     }
   }
 
@@ -1981,14 +2090,76 @@
     });
     const editor = document.getElementById('editor');
     editor.addEventListener('input', scheduleAutosave);
+    editor.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && !e.ctrlKey && !e.metaKey && !e.altKey && !e.isComposing) {
+        const start = editor.selectionStart;
+        const end = editor.selectionEnd;
+        const value = editor.value;
+        
+        const lineStart = value.lastIndexOf('\n', start - 1) + 1;
+        const lineEnd = value.indexOf('\n', end);
+        const actualLineEnd = lineEnd === -1 ? value.length : lineEnd;
+        const wholeLineText = value.slice(lineStart, actualLineEnd);
+        
+        let prefix = '';
+        const checkboxMatch = wholeLineText.match(/^(\s*[-*]\s*\[([ xX])\]\s*)/);
+        if (checkboxMatch) {
+          prefix = checkboxMatch[1].replace(/\[[xX]\]/, '[ ]');
+        } else {
+          const bulletMatch = wholeLineText.match(/^(\s*[-*]\s*)/);
+          if (bulletMatch) {
+            prefix = bulletMatch[1];
+          }
+        }
+        
+        if (prefix) {
+          if (start < lineStart + prefix.length) {
+            return;
+          }
+          
+          e.preventDefault();
+          
+          const isLineEmptyOfContent = wholeLineText.replace(prefix, '').trim() === '';
+          if (isLineEmptyOfContent) {
+            editor.value = value.slice(0, lineStart) + '\n' + value.slice(actualLineEnd);
+            editor.selectionStart = editor.selectionEnd = lineStart + 1;
+            scheduleAutosave();
+            return;
+          }
+          
+          const textToInsert = '\n' + prefix;
+          editor.value = value.slice(0, start) + textToInsert + value.slice(end);
+          const newPos = start + textToInsert.length;
+          editor.selectionStart = editor.selectionEnd = newPos;
+          scheduleAutosave();
+        }
+      }
+    });
 
     const tagsInputField = document.getElementById('tagsInputField');
     if (tagsInputField) {
       tagsInputField.addEventListener('keydown', handleAddTag);
+      tagsInputField.addEventListener('input', renderEditorTags);
     }
 
-    document.getElementById('settingsBtn').addEventListener('click', () => document.getElementById('settingsModal').classList.add('show'));
+    document.getElementById('settingsBtn').addEventListener('click', () => {
+      syncTimeFormatToggle();
+      document.getElementById('settingsModal').classList.add('show');
+    });
     document.getElementById('closeSettings').addEventListener('click', () => document.getElementById('settingsModal').classList.remove('show'));
+
+    function syncTimeFormatToggle() {
+      document.querySelectorAll('.btn-toggle[data-timeformat]').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.timeformat === state.settings.timeFormat);
+      });
+    }
+    document.querySelectorAll('.btn-toggle[data-timeformat]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        saveSettings({ timeFormat: btn.dataset.timeformat });
+        syncTimeFormatToggle();
+        renderSidebar();
+      });
+    });
     document.getElementById('exportNotesBtn').addEventListener('click', exportAllNotes);
     document.getElementById('importNotesBtn').addEventListener('click', importAllNotes);
 
