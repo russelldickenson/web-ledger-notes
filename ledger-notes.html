@@ -223,49 +223,41 @@
   .note-card.pinned {
     border-color: color-mix(in srgb, var(--primary) 45%, var(--note-border));
   }
+  .note-card-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: auto;
+    padding-top: 0px;
+  }
   .note-card-pin {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    width: 26px;
-    height: 26px;
+    flex: 0 0 auto;
+    width: 22px;
+    height: 22px;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 6px;
-    color: var(--note-text-muted);
+    background: transparent;
+    border: none;
+    color: var(--note-border);
     opacity: 0;
-    transition: opacity var(--transition-normal), background-color var(--transition-normal), color var(--transition-normal);
+    transition: opacity var(--transition-normal), color var(--transition-normal);
     cursor: pointer;
-    z-index: 2;
   }
-  .note-card-pin svg { width: 15px; height: 15px; }
+  .note-card-pin svg { width: 13px; height: 13px; }
   .note-card:hover .note-card-pin { opacity: 0.65; }
-  .note-card-pin:hover { opacity: 1; background-color: color-mix(in srgb, var(--primary) 12%, transparent); color: var(--primary); }
+  .note-card-pin:hover { opacity: 1; color: var(--primary); }
   .note-card-pin:focus-visible { outline: none; opacity: 1; box-shadow: 0 0 0 2px var(--primary); }
   .note-card.pinned .note-card-pin {
     opacity: 1;
     color: var(--primary);
   }
   .note-card.pinned .note-card-pin svg { fill: var(--primary); }
-  .note-card-title {
-    font-family: var(--font-title);
-    font-weight: 600;
-    font-size: 15px;
-    margin: 0 0 4px 0;
-    padding-right: 26px;
-    color: var(--note-text);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
   .note-card-date {
     font-family: var(--font-body);
     font-size: 11px;
     color: var(--note-text-muted);
-    margin-top: auto;
-    padding-top: 6px;
-    display: block;
+    flex: 1 1 auto;
     flex-shrink: 0;
   }
   .note-card-preview {
@@ -355,8 +347,62 @@
   .note-view-body {
     flex: 1 1 auto;
     overflow-y: auto;
-    padding: 64px 80px 48px 40px;
+    padding: 32px 40px;
   }
+
+  /* Note View Header Layout */
+  .note-view-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 24px;
+    border-bottom: 1px solid var(--note-border);
+    background-color: var(--note-bg);
+    flex-shrink: 0;
+    min-height: 56px;
+    box-sizing: border-box;
+  }
+
+  .note-view-meta {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--note-text-muted);
+  }
+
+  .note-view-date {
+    font-weight: 500;
+  }
+
+  .note-view-divider {
+    color: var(--note-border);
+    user-select: none;
+  }
+
+  .note-view-tags {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .note-view-header .note-card-tag-badge {
+    background-color: color-mix(in srgb, var(--primary-light) 15%, var(--note-bg));
+    color: var(--primary);
+    border: 1px solid color-mix(in srgb, var(--primary) 20%, transparent);
+    font-size: 0.7rem;
+    font-weight: 500;
+    border-radius: 9999px;
+    padding: 2px 8px;
+    transition: all var(--transition-fast);
+  }
+
+  .note-view-header .note-card-tag-badge:hover {
+    background-color: color-mix(in srgb, var(--primary) 25%, var(--note-bg));
+    transform: translateY(-1px);
+  }
+
 
   .rendered-note {
     max-width: 100%;
@@ -880,10 +926,6 @@
   }
 
   .note-view-actions {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    z-index: 10;
     display: flex;
     align-items: center;
     gap: 8px;
@@ -1024,28 +1066,33 @@
 
     <main class="content-area" id="contentArea">
       <div id="viewMode" class="content-scroll">
-        <div class="note-view-actions">
-          <div id="modeToggleView" class="toggle-mode-container">
-            <button class="btn-toggle" data-mode="view" title="View mode">
-              <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
-            </button>
-            <button class="btn-toggle" data-mode="edit" title="Edit mode">
-              <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
-            </button>
+        <div class="note-view-header">
+          <div class="note-view-meta" id="noteViewMeta">
+            <div class="note-view-tags" id="noteViewTags"></div>
           </div>
-          <div class="note-menu-wrapper">
-            <button class="note-menu-btn" id="ellipsisMenuBtn" title="More options">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="1.5"/>
-                <circle cx="12" cy="5" r="1.5"/>
-                <circle cx="12" cy="19" r="1.5"/>
-              </svg>
-            </button>
-            <div class="note-dropdown-menu" id="ellipsisDropdown">
-              <button class="dropdown-item danger" id="dropdownDeleteBtn">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M10 11v6M14 11v6"/></svg>
-                Delete note
+          <div class="note-view-actions">
+            <div id="modeToggleView" class="toggle-mode-container">
+              <button class="btn-toggle" data-mode="view" title="View mode">
+                <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
               </button>
+              <button class="btn-toggle" data-mode="edit" title="Edit mode">
+                <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+              </button>
+            </div>
+            <div class="note-menu-wrapper">
+              <button class="note-menu-btn" id="ellipsisMenuBtn" title="More options">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="1.5"/>
+                  <circle cx="12" cy="5" r="1.5"/>
+                  <circle cx="12" cy="19" r="1.5"/>
+                </svg>
+              </button>
+              <div class="note-dropdown-menu" id="ellipsisDropdown">
+                <button class="dropdown-item danger" id="dropdownDeleteBtn">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M10 11v6M14 11v6"/></svg>
+                  Delete note
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -1171,15 +1218,6 @@
   }
 
   // ---------- Notes I/O ----------
-  function slugify(title) {
-    let s = title.trim().toLowerCase()
-      .replace(/[^a-z0-9\s-]/g, '')
-      .replace(/\s+/g, '-')
-      .replace(/-+/g, '-')
-      .replace(/^-|-$/g, '');
-    return s || 'untitled';
-  }
-
   function getAllTags() {
     const tagsMap = new Map();
     state.notes.forEach(note => {
@@ -1280,7 +1318,6 @@
       } else {
         const welcomeNote = {
           id: 'welcome-to-ledger',
-          title: 'Welcome to Ledger',
           content: '# Welcome to Ledger\n\nThis is your personal notes application, now running entirely inside your browser\'s local storage.\n\n### Features\n- **Offline first**: All your notes are saved immediately to local storage.\n- **Tags**: Organize your notes with tag filtering.\n- **Markdown**: Use formatting like **bold**, *italic*, lists, and admonitions.\n- **Keyboard Shortcuts**:\n  - `Cmd/Ctrl + .` to add a note.\n  - `Cmd/Ctrl + Enter` to save and exit edit mode.',
           lastModified: Date.now(),
           tags: ['Welcome']
@@ -1458,10 +1495,18 @@
       card.className = 'note-card' + (note.id === state.selectedId ? ' active' : '') + (note.pinned ? ' pinned' : '');
       card.setAttribute('type', 'button');
 
-      const pinBtn = document.createElement('span');
+      const metaRow = document.createElement('div');
+      metaRow.className = 'note-card-meta';
+
+      const date = document.createElement('span');
+      date.className = 'note-card-date';
+      date.textContent = formatDate(note.lastModified);
+      metaRow.appendChild(date);
+
+      const pinBtn = document.createElement('button');
       pinBtn.className = 'note-card-pin';
+      pinBtn.type = 'button';
       pinBtn.setAttribute('role', 'button');
-      pinBtn.setAttribute('tabindex', '0');
       pinBtn.title = note.pinned ? 'Unpin note' : 'Pin note';
       pinBtn.setAttribute('aria-label', pinBtn.title);
       pinBtn.setAttribute('aria-pressed', note.pinned ? 'true' : 'false');
@@ -1477,11 +1522,8 @@
           togglePin(note.id);
         }
       });
-      card.appendChild(pinBtn);
-
-      const date = document.createElement('span');
-      date.className = 'note-card-date';
-      date.textContent = formatDate(note.lastModified);
+      metaRow.appendChild(pinBtn);
+      card.appendChild(metaRow);
 
       const preview = document.createElement('div');
       preview.className = 'note-card-preview';
@@ -1502,7 +1544,6 @@
         card.appendChild(tagsContainer);
       }
 
-      card.appendChild(date);
       card.addEventListener('click', () => selectNote(note.id));
       card.addEventListener('dblclick', () => {
         selectNote(note.id);
@@ -1557,19 +1598,20 @@
       viewMode.style.display = 'flex';
       const renderedNote = document.getElementById('renderedNote');
       
-      let tagsHtml = '';
-      if (note.tags && note.tags.length > 0) {
-        tagsHtml = `
-          <div class="tags-section view-only" style="margin-bottom: 16px;">
-            <div class="note-card-tags">
-              ${note.tags.map(t => `<span class="note-card-tag-badge">${escapeHtml(t)}</span>`).join('')}
-            </div>
-          </div>
-        `;
+      // Update tags in header
+      const tagsEl = document.getElementById('noteViewTags');
+      if (tagsEl) {
+        if (note.tags && note.tags.length > 0) {
+          tagsEl.style.display = 'inline-flex';
+          tagsEl.innerHTML = note.tags.map(t => `<span class="note-card-tag-badge">${escapeHtml(t)}</span>`).join('');
+        } else {
+          tagsEl.style.display = 'none';
+          tagsEl.innerHTML = '';
+        }
       }
 
       const bodyHtml = renderMarkdown(note.content || '*Empty note*');
-      renderedNote.innerHTML = tagsHtml + bodyHtml;
+      renderedNote.innerHTML = bodyHtml;
       enableCheckboxes(renderedNote, note);
 
       toggleViewButtons.forEach(btn => btn.classList.add('active'));
@@ -1727,7 +1769,6 @@
     const id = 'note-' + Date.now();
     const note = {
       id: id,
-      title: 'Untitled note',
       content: '',
       lastModified: Date.now(),
       tags: []
@@ -1783,7 +1824,6 @@
     const frontmatter = [
       '---',
       'id: ' + escapeFrontmatterValue(note.id),
-      'title: ' + escapeFrontmatterValue(note.title),
       'tags: ' + escapeFrontmatterValue(tags),
       'lastModified: ' + escapeFrontmatterValue(note.lastModified || Date.now()),
       'pinned: ' + (note.pinned ? 'true' : 'false'),
@@ -1814,7 +1854,6 @@
       }
       notes.push({
         id: meta.id || ('note-' + Date.now() + '-' + Math.random().toString(36).slice(2, 8)),
-        title: meta.title || 'Untitled note',
         content: match[2].replace(/^\n+/, '').replace(/\s+$/, ''),
         tags: meta.tags ? meta.tags.split(',').map((t) => t.trim()).filter(Boolean) : [],
         lastModified: meta.lastModified ? Number(meta.lastModified) : Date.now(),
